@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f7fb;
+  --foreground: #0c1222;
+  --muted: #5c6578;
+  --brand: #0d9488;
+  --brand-bright: #14b8a6;
+  --brand-deep: #0f766e;
+  --surface: #ffffff;
+  --ring-glow: rgba(20, 184, 166, 0.35);
+  --mesh-1: #e0f2f1;
+  --mesh-2: #ede9fe;
+  --mesh-3: #cffafe;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-source);
+  --font-display: var(--font-playfair);
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes shimmer-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 14s ease infinite;
+}
+
+.animate-float-soft {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+.hero-mesh {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 0%, var(--mesh-1), transparent),
+    radial-gradient(ellipse 60% 50% at 90% 10%, var(--mesh-2), transparent),
+    radial-gradient(ellipse 50% 40% at 50% 100%, var(--mesh-3), transparent);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 24px 48px -24px rgba(15, 23, 42, 0.12);
+}
+
+.shimmer-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: shimmer-line 2.8s ease-in-out infinite;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (pointer: fine) {
+  html[data-cursor-premium="true"] body {
+    cursor: none;
+  }
+  html[data-cursor-premium="true"] input,
+  html[data-cursor-premium="true"] textarea,
+  html[data-cursor-premium="true"] [contenteditable="true"] {
+    cursor: text;
+  }
+}
+
+/* Primary CTA shimmer on hover */
+.interactive-shine {
+  position: relative;
+}
+.interactive-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+.interactive-shine:hover::after {
+  transform: translateX(120%);
+}
+
+/*
+ * All semantic headings use Playfair Display site-wide.
+ * Unlayered + `html h…` beats Tailwind preflight / inherited `font-sans` on ancestors.
+ */
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+  font-family: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+}
