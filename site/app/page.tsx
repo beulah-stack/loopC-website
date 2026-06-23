@@ -54,7 +54,7 @@ export default function HomePage() {
                 <div className="glass-panel group relative h-full overflow-hidden rounded-2xl border border-teal-100/60 bg-gradient-to-br from-white to-teal-50/30 p-7 shadow-md transition duration-500 ease-out hover:border-teal-200/80 hover:shadow-2xl">
                   <span className="inline-block h-1.5 w-12 rounded-full bg-gradient-to-r from-teal-500 via-cyan-400 to-violet-400" />
                   <h3 className="font-display mt-5 text-lg font-bold text-slate-900">{f.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{f.summary}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{f.description}</p>
                 </div>
               </InteractiveTiltCard>
             </StaggerItem>

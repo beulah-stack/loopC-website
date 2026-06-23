@@ -1,80 +1,142 @@
-export type Feature = {
-  slug: string;
-  title: string;
-  summary: string;
-  bullets: string[];
-};
-
-export const features: Feature[] = [
-  {
-    slug: "erp-dashboard",
-    title: "Multilingual ERP Dashboard",
-    summary:
-      "One dashboard for inventory, sales, purchases, and accounts—with language support for global trading teams.",
-    bullets: [
-      "English, Arabic (SA), Uzbek, and Russian interfaces",
-      "Role-based dashboards for owners, operations, and finance",
-      "Switch language without losing your data or settings",
-    ],
-  },
-  {
-    slug: "inventory-management",
-    title: "Inventory Management",
-    summary: "Real-time stock across warehouses, batches, and locations—built for trading velocity.",
-    bullets: [
-      "Multi-warehouse and bin-level tracking",
-      "Reorder levels, ageing, and slow-moving alerts",
-      "Barcode-ready goods inward and outward",
-    ],
-  },
-  {
-    slug: "purchase-management",
-    title: "Purchase Management",
-    summary: "Control procurement from PO to GRN with vendor-wise pricing history.",
-    bullets: [
-      "Purchase orders, approvals, and GRN matching",
-      "Vendor price lists and landed cost tracking",
-      "Purchase returns and debit notes",
-    ],
-  },
-  {
-    slug: "sales-management",
-    title: "Sales Management",
-    summary: "Quote-to-cash for wholesale and distribution teams on one screen.",
-    bullets: [
-      "Sales orders, dispatch, and invoicing",
-      "Credit limits and outstanding tracking",
-      "Sales returns and credit notes",
-    ],
-  },
-  {
-    slug: "customer-management",
-    title: "Customer Management",
-    summary: "Know every buyer’s history, terms, and open balances before you quote.",
-    bullets: [
-      "Customer master with territories and segments",
-      "Payment terms, credit days, and follow-ups",
-      "Order history and repeat-purchase insights",
-    ],
-  },
-  {
-    slug: "accounting",
-    title: "Accounting",
-    summary: "GST-ready books tied to every stock and sales movement—no double entry.",
-    bullets: [
-      "Ledgers, journals, and bank reconciliation",
-      "GST invoicing and return-ready reports",
-      "P&L, balance sheet, and cash flow views",
-    ],
-  },
-  {
-    slug: "reports-analytics",
-    title: "Reports & Analytics",
-    summary: "Dashboards that answer what moved, what stalled, and where margin leaks.",
-    bullets: [
-      "Inventory valuation and movement reports",
-      "Sales, purchase, and profitability by SKU",
-      "Executive summaries for owners and CFOs",
-    ],
-  },
-];
+export type FeatureCategory = {
+  slug: string;
+  title: string;
+  description: string;
+  features: string[];
+  benefits: string[];
+};
+
+export const featuresPageCopy = {
+  eyebrow: "Features",
+  title: "Powerful ERP Features for Modern Trading Businesses",
+  subtitle:
+    "Manage finances, inventory, customers, suppliers, procurement, and operations from a single intelligent platform designed for growing enterprises.",
+} as const;
+
+export const features: FeatureCategory[] = [
+  {
+    slug: "financial-management",
+    title: "Financial Management",
+    description: "Manage your business finances with complete visibility and control.",
+    features: [
+      "Accounts Management",
+      "Ledger Tracking",
+      "Voucher Management",
+      "Transaction Recording",
+      "Account Summary",
+      "Financial Reports",
+    ],
+    benefits: [
+      "Track receivables and payables",
+      "Improve cash flow visibility",
+      "Maintain accurate financial records",
+    ],
+  },
+  {
+    slug: "multi-currency-management",
+    title: "Multi-Currency Management",
+    description: "Handle international business transactions with confidence.",
+    features: [
+      "Currency Master",
+      "Exchange Rate Management",
+      "Automatic Currency Conversion",
+      "Exchange Gain/Loss Tracking",
+    ],
+    benefits: [
+      "Support global trading operations",
+      "Eliminate manual currency calculations",
+      "Accurate financial reporting",
+    ],
+  },
+  {
+    slug: "inventory-warehouse-management",
+    title: "Inventory & Warehouse Management",
+    description: "Monitor stock levels and inventory movements in real time.",
+    features: [
+      "Inventory Tracking",
+      "Stock Monitoring",
+      "Vendor Integration",
+      "Purchase Management",
+    ],
+    benefits: [
+      "Reduce stock shortages",
+      "Prevent inventory losses",
+      "Optimize warehouse operations",
+    ],
+  },
+  {
+    slug: "customer-management-profitability",
+    title: "Customer Management & Profitability",
+    description: "Build stronger customer relationships while maximizing profits.",
+    features: [
+      "Customer Database",
+      "Customer Margin Analysis",
+      "Customer Transaction History",
+    ],
+    benefits: [
+      "Identify high-value customers",
+      "Improve customer retention",
+      "Increase profitability",
+    ],
+  },
+  {
+    slug: "supplier-procurement-management",
+    title: "Supplier & Procurement Management",
+    description: "Streamline purchasing and vendor relationships.",
+    features: [
+      "Vendor Management",
+      "Supplier Margin Analysis",
+      "Procurement Plus",
+      "Purchase Tracking",
+    ],
+    benefits: [
+      "Optimize procurement costs",
+      "Compare supplier performance",
+      "Improve supplier relationships",
+    ],
+  },
+  {
+    slug: "sales-operations-management",
+    title: "Sales & Operations Management",
+    description: "Drive growth with real-time sales and operational insights.",
+    features: [
+      "Sales Management",
+      "Operations Monitoring",
+      "Business Dashboard",
+      "Performance Tracking",
+    ],
+    benefits: [
+      "Monitor sales performance",
+      "Improve operational efficiency",
+      "Make data-driven decisions",
+    ],
+  },
+  {
+    slug: "human-resources-compliance",
+    title: "Human Resources & Compliance",
+    description: "Manage employees and ensure regulatory compliance.",
+    features: ["HR Management", "Training Management", "Compliance Tracking"],
+    benefits: [
+      "Centralized employee records",
+      "Simplified compliance processes",
+      "Better workforce management",
+    ],
+  },
+  {
+    slug: "analytics-reporting",
+    title: "Analytics & Reporting",
+    description: "Transform business data into actionable insights.",
+    features: [
+      "Real-Time Dashboard",
+      "Business Reports",
+      "Profitability Analysis",
+      "Financial Analytics",
+    ],
+    benefits: [
+      "Faster decision making",
+      "Better business visibility",
+      "Improved strategic planning",
+    ],
+  },
+];
+

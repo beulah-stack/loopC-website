@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FadeIn, Stagger, StaggerItem } from "@/components/fade-in";
+import { FadeIn } from "@/components/fade-in";
+import { FeaturesHorizontalScroll } from "@/components/features-horizontal-scroll";
 import { PageBanner } from "@/components/page-banner";
-import { features } from "@/lib/features";
+import { features, featuresPageCopy } from "@/lib/features";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Features",
   description:
-    "LoopC ERP features for trading businesses: multilingual ERP dashboard (EN, SA, UZ, RU), inventory, purchase, sales, accounting, and reports.",
+    "Powerful ERP features for modern trading businesses—financial management, multi-currency, inventory, customers, suppliers, sales, HR, and analytics.",
   keywords: [
+    "ERP financial management",
+    "multi-currency ERP",
     "inventory management software",
     "ERP for trading business",
     "trading company management software",
   ],
   openGraph: {
     title: `Features | ${siteConfig.brand}`,
+    description: featuresPageCopy.subtitle,
     url: "/features",
   },
 };
@@ -25,9 +29,9 @@ export default function FeaturesPage() {
     <div>
       <PageBanner
         banner="features"
-        eyebrow="Features"
-        title="Everything a trading business runs on—one ERP"
-        description={`${siteConfig.dashboardLanguageLine} Plus inventory, purchases, sales, customers, accounting, and analytics—${siteConfig.customizationLine.toLowerCase()}`}
+        eyebrow={featuresPageCopy.eyebrow}
+        title={featuresPageCopy.title}
+        description={`${featuresPageCopy.subtitle} ${siteConfig.dashboardLanguageLine}`}
         priority
       >
         <Link
@@ -38,39 +42,31 @@ export default function FeaturesPage() {
         </Link>
       </PageBanner>
 
+      <FeaturesHorizontalScroll categories={features} />
+
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-        <Stagger className="grid gap-8 md:grid-cols-2">
-          {features.map((f) => (
-            <StaggerItem key={f.slug}>
-              <article
-                id={f.slug}
-                className="glass-panel h-full rounded-2xl border border-teal-100/60 p-8"
-              >
-                <span className="inline-block h-1 w-10 rounded-full bg-gradient-to-r from-teal-500 to-cyan-400" />
-                <h2 className="mt-4 text-2xl font-bold text-slate-900">{f.title}</h2>
-                <p className="mt-3 text-slate-600">{f.summary}</p>
-                <ul className="mt-5 space-y-2 text-sm text-slate-600">
-                  {f.bullets.map((b) => (
-                    <li key={b} className="flex gap-2">
-                      <span className="text-teal-600" aria-hidden>
-                        ✓
-                      </span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <FadeIn className="mt-16 text-center">
-          <p className="text-slate-600">See it on your workflows—not a generic tour.</p>
-          <Link
-            href="/free-demo"
-            className="mt-4 inline-flex rounded-full border-2 border-teal-200 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:border-teal-400"
-          >
-            Schedule a 30-minute demo
-          </Link>
+        <FadeIn className="rounded-2xl border border-slate-200/80 bg-gradient-to-br from-slate-900 via-slate-900 to-teal-900 px-6 py-12 text-center sm:px-10">
+          <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+            See business value—not just menus
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-teal-100/95 sm:text-base">
+            {siteConfig.customizationLine} Book a demo to walk through these modules on your
+            trading workflows.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/free-demo"
+              className="interactive-shine inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg transition hover:bg-teal-50"
+            >
+              Schedule a 30-minute demo
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              View pricing tiers
+            </Link>
+          </div>
         </FadeIn>
       </section>
     </div>
