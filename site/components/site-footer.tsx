@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { services } from "@/lib/services";
+import { features } from "@/lib/features";
 import { getWhatsAppUrl, siteConfig } from "@/lib/site-config";
 
 const quickLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "ERP & products" },
-  { href: "/blog", label: "Blog" },
+  { href: "/features", label: "Features" },
+  { href: "/industries", label: "Industries" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact" },
-  { href: "/request-demo", label: "Request Demo" },
-  { href: "/case-studies", label: "Case Studies" },
+  { href: "/download-brochure", label: "Download brochure" },
+  { href: "/free-demo", label: "Book demo" },
+  { href: "/free-audit", label: "Free audit" },
+  { href: "/free-consultation", label: "Free consultation" },
 ] as const;
 
 function SocialIconLinkedIn() {
@@ -74,7 +76,6 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-white/10 bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Brand */}
           <div className="lg:col-span-4">
             <Logo variant="footer" />
             <p className="mt-4 text-sm font-semibold leading-snug text-teal-100/90">
@@ -99,7 +100,6 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Quick links */}
           <div className="lg:col-span-2">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Quick links</p>
             <ul className="mt-4 space-y-2.5 text-sm">
@@ -113,24 +113,22 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Our services */}
           <div className="lg:col-span-3">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">ERP & add-ons</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Features</p>
             <ul className="mt-4 space-y-2.5 text-sm">
-              {services.map((s) => (
-                <li key={s.slug}>
+              {features.map((f) => (
+                <li key={f.slug}>
                   <Link
-                    href={`/services/${s.slug}`}
+                    href={`/features#${f.slug}`}
                     className="text-slate-400 transition hover:text-teal-300"
                   >
-                    {s.title}
+                    {f.title}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Company address */}
           <div className="lg:col-span-3">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Company</p>
             <address className="mt-4 not-italic text-sm leading-relaxed text-slate-400">
@@ -141,12 +139,6 @@ export function SiteFooter() {
               ))}
             </address>
             <div className="mt-5 space-y-2 text-sm">
-              <p>
-                <span className="text-slate-500">General: </span>
-                <a href={`mailto:${siteConfig.contactEmail}`} className="text-teal-400 hover:underline">
-                  {siteConfig.contactEmail}
-                </a>
-              </p>
               <p>
                 <span className="text-slate-500">Sales: </span>
                 <a href={`mailto:${siteConfig.salesEmail}`} className="text-teal-400 hover:underline">
@@ -163,7 +155,6 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-14 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p className="text-slate-400">
             © {year} {siteConfig.legalName}. All rights reserved.
@@ -175,9 +166,7 @@ export function SiteFooter() {
             <Link href="/terms" className="text-slate-400 transition hover:text-teal-300">
               Terms of service
             </Link>
-            <span className="text-slate-500" title="Update GSTIN in site-config when available">
-              {siteConfig.gstNumber}
-            </span>
+            <span className="text-slate-500">{siteConfig.gstNumber}</span>
           </div>
         </div>
       </div>

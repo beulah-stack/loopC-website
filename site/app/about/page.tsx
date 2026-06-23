@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "LoopC Business Strategies builds and sells ERP software—fair pricing, clear product scope, and delivery shaped to Indian businesses.",
+    "LoopC Business Strategies builds customized ERP software at low pricing—clear product scope and delivery shaped to Indian businesses.",
   openGraph: {
     title: `About | ${siteConfig.brand}`,
     description: "Who we are: an ERP product company based in Chennai.",
@@ -28,9 +28,9 @@ export default function AboutPage() {
         <FadeIn delay={0.08} className="mt-8 space-y-6 text-lg leading-relaxed text-slate-600">
           <p>
             We are an <strong className="text-slate-900">ERP product company</strong>. Our team
-            designs and builds LoopC ERP in-house, then sells it to organisations that need one
-            dependable system for finance, inventory, procurement, and operations—priced so
-            mid-market teams in India can actually afford to own it.
+            designs and builds LoopC ERP in-house, then customizes it to each client&apos;s
+            requirements—workflows, reports, and approvals—at low pricing so mid-market teams in
+            India can afford to own it.
           </p>
           <p>
             Selling software we build means we stand behind the roadmap: buyers get honest
@@ -42,9 +42,9 @@ export default function AboutPage() {
             certifications or partnerships. Keep it short—this page supports the purchase decision.
           </p>
           <p>
-            <strong className="text-slate-900">How we sell & deliver:</strong> product demos
-            on the real build, written quotes that separate licence/subscription from services,
-            phased go-live, and training on the ERP the customer bought.
+            <strong className="text-slate-900">How we sell & deliver:</strong> product demos on the
+            real build, customization scoped to your requirements, low pricing in the written quote,
+            phased go-live, and training on the ERP you bought.
           </p>
         </FadeIn>
         <FadeIn delay={0.16} className="mt-10 flex flex-wrap gap-3">

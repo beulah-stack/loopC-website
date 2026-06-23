@@ -7,12 +7,28 @@ export const siteConfig = {
   name: "LoopC Business Strategies",
   legalName: "LoopC Business Strategies",
   tagline:
-    "We build ERP applications—and sell them at a fair price. Optional CRM dashboards and services to get you live with confidence.",
+    "Customized ERP dashboard for trading businesses—English, SA, UZ, and RU language support, at low pricing.",
   description:
-    "LoopC Business Strategies develops its own ERP software and sells it to companies that need finance, inventory, and operations on one platform—without enterprise-only pricing. Add CRM dashboards, implementation, and support when you need them.",
+    "LoopC Business Strategies builds a customized ERP dashboard in English, Arabic (SA), Uzbek, and Russian—for wholesale, distribution, import-export, and manufacturing teams. Manage stock, GST invoicing, and collections at low, scoped pricing.",
   /** One line for hero / CTAs */
   erpSalesLine:
-    "Own the ERP we build: clear licensing, transparent pricing, and delivery shaped to your business.",
+    "One ERP dashboard customized to your requirements—inventory, sales, purchases, and accounts in English, SA, UZ, or RU, at low pricing.",
+  /** Short value props for badges, pills, and CTAs */
+  customizationLine:
+    "We customize the application to your workflows, reports, approvals, and integrations—not a one-size-fits-all template.",
+  pricingLine:
+    "Low, transparent pricing scoped to your modules and team size—no enterprise-only price tags.",
+  /** ERP dashboard interface languages */
+  dashboardLanguages: [
+    { code: "EN", name: "English" },
+    { code: "SA", name: "Arabic (Saudi Arabia)" },
+    { code: "UZ", name: "Uzbek" },
+    { code: "RU", name: "Russian" },
+  ] as const,
+  dashboardLanguageLine:
+    "Our ERP dashboard is available in English, Arabic (SA), Uzbek, and Russian—switch language in one click.",
+  /** Product brochure PDF in /public — update when you have the final file */
+  brochurePath: "/loopc-erp-brochure.pdf",
   /** Used for metadataBase and Open Graph when NEXT_PUBLIC_SITE_URL is unset */
   productionUrl: "https://www.loopc.com",
   contactEmail: "hello@loopc.com",
@@ -47,4 +63,8 @@ export function getSiteUrl(): string {
     return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
   }
   return siteConfig.productionUrl;
+}
+
+export function getDashboardLanguageCodes(): string {
+  return siteConfig.dashboardLanguages.map((lang) => lang.code).join(" · ");
 }

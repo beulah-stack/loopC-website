@@ -24,7 +24,7 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteConfig.brand} — ERP software we build & sell | ${siteConfig.name}`,
+    default: `${siteConfig.brand} — ERP for Trading Businesses | ${siteConfig.name}`,
     template: `%s | ${siteConfig.brand}`,
   },
   description: siteConfig.description,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ERP software for sale`,
+    title: `${siteConfig.name} — ERP for trading businesses`,
     description: siteConfig.description,
     url: siteUrl,
   },

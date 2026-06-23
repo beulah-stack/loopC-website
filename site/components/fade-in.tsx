@@ -7,20 +7,44 @@ type FadeInProps = {
   className?: string;
   delay?: number;
   y?: number;
+  /** Above-the-fold: animate on mount instead of whileInView */
+  onMount?: boolean;
 };
 
-export function FadeIn({ children, className = "", delay = 0, y = 18 }: FadeInProps) {
+export function FadeIn({
+  children,
+  className = "",
+  delay = 0,
+  y = 18,
+  onMount = false,
+}: FadeInProps) {
   const reduce = useReducedMotion();
   if (reduce) {
     return <div className={className}>{children}</div>;
   }
+
+  const transition = { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] as const };
+
+  if (onMount) {
+    return (
+      <motion.div
+        className={className}
+        initial={{ opacity: 0, y }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={transition}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -32px 0px", amount: 0.05 }}
-      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={transition}
     >
       {children}
     </motion.div>

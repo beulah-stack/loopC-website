@@ -25,11 +25,11 @@ export function TestimonialSlider({ items }: Props) {
 
   useEffect(() => {
     if (!emblaApi) return;
-    const id = window.setTimeout(() => onSelect(), 0);
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
+    const id = requestAnimationFrame(() => onSelect());
     return () => {
-      window.clearTimeout(id);
+      cancelAnimationFrame(id);
       emblaApi.off("select", onSelect);
       emblaApi.off("reInit", onSelect);
     };

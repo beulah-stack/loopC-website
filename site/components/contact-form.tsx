@@ -3,15 +3,59 @@
 import { useState } from "react";
 import { siteConfig } from "@/lib/site-config";
 
-const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
+export type FormIntent = "contact" | "demo" | "audit" | "consultation" | "brochure";
 
 type ContactFormProps = {
   className?: string;
-  intent?: "contact" | "demo";
+  intent?: FormIntent;
+  /** After successful brochure submit, trigger download */
+  onBrochureSuccess?: () => void;
 };
 
-export function ContactForm({ className = "", intent = "contact" }: ContactFormProps) {
+const intentLabels: Record<FormIntent, { subject: string; button: string; intro: string }> = {
+  contact: {
+    subject: "Contact",
+    button: "Send message",
+    intro: "Tell us about your trading business—we will respond with next steps.",
+  },
+  demo: {
+    subject: "Demo request",
+    button: "Book free demo",
+    intro: "Schedule a 30-minute ERP demo—see how we customize the application to your requirements and scope low pricing for your team.",
+  },
+  audit: {
+    subject: "Free audit request",
+    button: "Request free audit",
+    intro: "Get a free business process audit—inventory, purchases, sales, and accounts.",
+  },
+  consultation: {
+    subject: "Free consultation",
+    button: "Book free consultation",
+    intro: "Find inventory leakage and profit loss areas with a focused consultation.",
+  },
+  brochure: {
+    subject: "Brochure download",
+    button: "Download brochure",
+    intro: "Enter your details to download the LoopC ERP product brochure.",
+  },
+};
+
+const employeeOptions = [
+  { value: "", label: "Select team size" },
+  { value: "1-10", label: "1–10 employees" },
+  { value: "11-25", label: "11–25 employees" },
+  { value: "26-50", label: "26–50 employees" },
+  { value: "51-100", label: "51–100 employees" },
+  { value: "100+", label: "100+ employees" },
+];
+
+export function ContactForm({
+  className = "",
+  intent = "contact",
+  onBrochureSuccess,
+}: ContactFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const meta = intentLabels[intent];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,7 +63,9 @@ export function ContactForm({ className = "", intent = "contact" }: ContactFormP
     const fd = new FormData(form);
     const name = String(fd.get("name") ?? "").trim();
     const company = String(fd.get("company") ?? "").trim();
+    const mobile = String(fd.get("mobile") ?? "").trim();
     const email = String(fd.get("email") ?? "").trim();
+    const employees = String(fd.get("employees") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
 
     if (!email) {
@@ -27,63 +73,40 @@ export function ContactForm({ className = "", intent = "contact" }: ContactFormP
       return;
     }
 
-    const subjectPrefix =
-      intent === "demo"
-        ? `[${siteConfig.brand}] Demo request`
-        : `[${siteConfig.brand}] Contact`;
+    const subjectPrefix = `[${siteConfig.brand}] ${meta.subject}`;
+    const payload = {
+      name,
+      company,
+      mobile,
+      email,
+      employees,
+      message,
+      intent,
+      _subject: `${subjectPrefix} from ${company || name || email}`,
+    };
 
-    if (FORMSPREE_ID) {
-      setStatus("loading");
-      try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-          method: "POST",
-          headers: { Accept: "application/json", "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            company,
-            email,
-            message,
-            _subject: `${subjectPrefix} from ${company || name || email}`,
-          }),
-        });
-        if (res.ok) {
-          setStatus("success");
-          form.reset();
-        } else {
-          setStatus("error");
-        }
-      } catch {
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+        if (intent === "brochure") onBrochureSuccess?.();
+      } else {
         setStatus("error");
       }
-      return;
+    } catch {
+      setStatus("error");
     }
-
-    const subject = encodeURIComponent(
-      `${intent === "demo" ? "Demo request" : "Contact"} — ${company || name}`,
-    );
-    const body = encodeURIComponent(
-      `Name: ${name}\nCompany: ${company}\nEmail: ${email}\n\n${message}`,
-    );
-    const mail = intent === "demo" ? siteConfig.salesEmail : siteConfig.contactEmail;
-    window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;
   }
-
-  const intro =
-    intent === "demo"
-      ? "Tell us your systems, team size, and what you want to see—we will tailor the session."
-      : "Send a message and we will get back to you with next steps.";
 
   return (
     <div className={className}>
-      <p className="text-sm text-slate-600">{intro}</p>
-      {!FORMSPREE_ID ? (
-        <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-          Forms are not connected yet: submissions will open your email client. To receive
-          submissions in your inbox without mailto, add{" "}
-          <code className="rounded bg-amber-100 px-1">NEXT_PUBLIC_FORMSPREE_FORM_ID</code> in{" "}
-          <code className="rounded bg-amber-100 px-1">.env.local</code> (see README).
-        </p>
-      ) : null}
+      <p className="text-sm text-slate-600">{meta.intro}</p>
       <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm font-medium text-slate-700">
@@ -91,58 +114,88 @@ export function ContactForm({ className = "", intent = "contact" }: ContactFormP
             <input
               name="name"
               type="text"
+              required
               autoComplete="name"
               className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
             />
           </label>
           <label className="block text-sm font-medium text-slate-700">
-            Company
+            Company name
             <input
               name="company"
               type="text"
+              required
               autoComplete="organization"
               className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
             />
           </label>
         </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="block text-sm font-medium text-slate-700">
+            Mobile number
+            <input
+              name="mobile"
+              type="tel"
+              required
+              autoComplete="tel"
+              placeholder="+91"
+              className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
+            />
+          </label>
+          <label className="block text-sm font-medium text-slate-700">
+            Email
+            <input
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
+            />
+          </label>
+        </div>
         <label className="block text-sm font-medium text-slate-700">
-          Work email
-          <input
-            name="email"
-            type="email"
+          Number of employees
+          <select
+            name="employees"
             required
-            autoComplete="email"
+            defaultValue=""
             className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
-          />
+          >
+            {employeeOptions.map((o) => (
+              <option key={o.value || "empty"} value={o.value} disabled={!o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
         </label>
-        <label className="block text-sm font-medium text-slate-700">
-          Message
-          <textarea
-            name="message"
-            rows={5}
-            className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
-            placeholder={
-              intent === "demo"
-                ? "ERP/CRM priorities, current tools, regions (e.g. Chennai HQ), preferred demo dates…"
-                : "Tell us about your ERP or CRM goals, timeline, and budget range…"
-            }
-          />
-        </label>
+        {intent === "contact" || intent === "demo" ? (
+          <label className="block text-sm font-medium text-slate-700">
+            Message <span className="font-normal text-slate-500">(optional)</span>
+            <textarea
+              name="message"
+              rows={4}
+              className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-600/15 focus:border-teal-500 focus:ring-4"
+              placeholder="SKUs, warehouses, current tools, preferred demo time…"
+            />
+          </label>
+        ) : null}
         <button
           type="submit"
           disabled={status === "loading"}
-          className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-teal-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-teal-600/25 transition hover:brightness-105 disabled:opacity-60 sm:w-auto"
+          className="interactive-shine inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-teal-600 to-teal-500 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-teal-600/25 transition hover:brightness-105 disabled:opacity-60 sm:w-auto"
         >
-          {status === "loading" ? "Sending…" : intent === "demo" ? "Request demo" : "Send message"}
+          {status === "loading" ? "Sending…" : meta.button}
         </button>
         {status === "success" ? (
           <p className="text-sm font-medium text-teal-800" role="status">
-            Thanks — we received your message.
+            {intent === "brochure"
+              ? "Thanks — your brochure download should start shortly."
+              : "Thanks — we received your request and will be in touch soon."}
           </p>
         ) : null}
         {status === "error" ? (
           <p className="text-sm font-medium text-red-700" role="alert">
-            Something went wrong. Please try again or email {siteConfig.contactEmail}.
+            Something went wrong. Please try again or email {siteConfig.salesEmail}.
           </p>
         ) : null}
       </form>
