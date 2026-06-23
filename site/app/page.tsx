@@ -8,24 +8,25 @@ import { PartnerColorGrid } from "@/components/partner-grid";
 import { ScrollRevealWords } from "@/components/scroll-reveal-text";
 import { TestimonialSlider } from "@/components/testimonial-slider";
 import { features } from "@/lib/features";
+import {
+  getSoftwareApplicationSchema,
+  homePageDescription,
+  homePageTitle,
+  seoKeywords,
+} from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 import { testimonials } from "@/lib/testimonials";
+import { JsonLd } from "@/components/json-ld";
 
 export const metadata: Metadata = {
-  title: "ERP Software for Trading Businesses",
-  description: siteConfig.description,
-  keywords: [
-    "ERP for trading business",
-    "inventory management software",
-    "wholesale business ERP",
-    "distributor ERP software",
-    "ERP dashboard multilingual",
-    "ERP software English Arabic Uzbek Russian",
-  ],
+  title: homePageTitle,
+  description: homePageDescription,
+  keywords: [...seoKeywords],
   openGraph: {
-    title: `ERP for Trading Businesses | ${siteConfig.brand}`,
-    description: siteConfig.description,
+    title: homePageTitle,
+    description: homePageDescription,
     url: "/",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -34,6 +35,7 @@ const homeFeatures = features.slice(0, 3);
 export default function HomePage() {
   return (
     <div>
+      <JsonLd data={getSoftwareApplicationSchema()} />
       <HomeHero />
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">

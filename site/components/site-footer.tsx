@@ -8,6 +8,7 @@ const quickLinks = [
   { href: "/features", label: "Features" },
   { href: "/industries", label: "Industries" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
   { href: "/download-brochure", label: "Download brochure" },
   { href: "/free-demo", label: "Book demo" },

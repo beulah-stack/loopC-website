@@ -9,7 +9,7 @@ export const siteConfig = {
   tagline:
     "Customized ERP dashboard for trading businesses—English, SA, UZ, and RU language support, at low pricing.",
   description:
-    "LoopC Business Strategies builds a customized ERP dashboard in English, Arabic (SA), Uzbek, and Russian—for wholesale, distribution, import-export, and manufacturing teams. Manage stock, GST invoicing, and collections at low, scoped pricing.",
+    "Manage inventory, accounts, procurement, customer margins, and multi-currency trading with LoopC ERP—for wholesale, distribution, and commodity businesses in India.",
   /** One line for hero / CTAs */
   erpSalesLine:
     "One ERP dashboard customized to your requirements—inventory, sales, purchases, and accounts in English, SA, UZ, or RU, at low pricing.",

@@ -2,9 +2,18 @@ import type { Metadata } from "next";
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { CustomCursor } from "@/components/custom-cursor";
+import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getSiteUrl, siteConfig } from "@/lib/site-config";
+import {
+  defaultSiteDescription,
+  defaultSiteTitle,
+  getOrganizationSchema,
+  openGraphDescription,
+  openGraphTitle,
+  seoKeywords,
+} from "@/lib/seo";
 
 /** Corporate luxury: editorial headings + neutral body (Google Fonts, self-hosted by Next). */
 const playfair = Playfair_Display({
@@ -24,22 +33,32 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteConfig.brand} — ERP for Trading Businesses | ${siteConfig.name}`,
+    default: defaultSiteTitle,
     template: `%s | ${siteConfig.brand}`,
   },
-  description: siteConfig.description,
+  description: defaultSiteDescription,
+  keywords: [...seoKeywords],
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ERP for trading businesses`,
-    description: siteConfig.description,
+    title: openGraphTitle,
+    description: openGraphDescription,
     url: siteUrl,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: openGraphTitle,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name}`,
-    description: siteConfig.description,
+    title: openGraphTitle,
+    description: openGraphDescription,
+    images: ["/opengraph-image"],
   },
 };
 
@@ -51,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sourceSans.variable} ${playfair.variable} h-full scroll-smooth`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
+        <JsonLd data={getOrganizationSchema()} />
         <CustomCursor />
         <a
           href="#main"
